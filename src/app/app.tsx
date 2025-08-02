@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Dashboard from "@/features/dashboard/Dashboard";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -9,6 +10,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <Dashboard />
       </div>
     </>
   );
