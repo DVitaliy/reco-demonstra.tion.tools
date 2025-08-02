@@ -1,7 +1,7 @@
 function Dashboard() {
   return (
-    <div className="">
-      <h1>Welcome to the Dashboard</h1>
+    <div className="text-3xl text-red-500 underline">
+      Welcome to the Dashboard
     </div>
   );
 }
