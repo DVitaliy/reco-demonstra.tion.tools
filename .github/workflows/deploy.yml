@@ -21,9 +21,7 @@ jobs:
 
       - name: 📦 Create deployment archive
         run: |
-          cd dist
-          tar -czf ../deploy-reco.tar.gz *
-          cd ..
+          tar -czf deploy-reco.tar.gz -C dist .
           ls -lh deploy-reco.tar.gz
 
       - name: 📂 Upload build and configs to server
@@ -46,6 +44,9 @@ jobs:
           script: |
             mkdir -p ~/_reco_temp
             tar -xzf ~/deploy-reco.tar.gz -C ~/_reco_temp
+
+            rm -rf ~/reco
+
             mv ~/_reco_temp ~/reco
             rm -f ~/deploy-reco.tar.gz
 
