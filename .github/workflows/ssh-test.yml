@@ -2,7 +2,7 @@ name: Test SSH connection
 
 on:
   push:
-    branches: [dev]
+    branches: [temp]
 
 jobs:
   test-ssh:
