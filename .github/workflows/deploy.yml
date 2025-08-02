@@ -50,4 +50,4 @@ jobs:
             rm -f ~/deploy-reco.tar.gz
 
             echo "✅ Deployment completed!"
-            sudo ls -la ~/reco/
+            ls -la ~/reco/
