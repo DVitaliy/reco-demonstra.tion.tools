@@ -25,7 +25,7 @@ jobs:
             rm -rf ~/reco
             mkdir ~/reco
 
-            cat > "~/reco/index.html" <<'HTML'
+            cat > ~/reco/index.html <<'HTML'
             <!doctype html>
             <html lang="en">
             <head>
@@ -47,3 +47,6 @@ jobs:
             </body>
             </html>
             HTML
+
+            echo "✅ index.html created successfully!"
+            ls -la ~/reco/
