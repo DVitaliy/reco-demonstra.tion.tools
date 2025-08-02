@@ -1,0 +1,8 @@
+# Ignore all files and directories except those listed below
+
+# Node.js project
+node_modules/
+dist/
+
+# Environment variables
+.env*
