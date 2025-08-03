@@ -6,6 +6,7 @@ import stylistic from "@stylistic/eslint-plugin"
 import eslintConfigPrettier from "eslint-config-prettier/flat"
 import boundaries from "eslint-plugin-boundaries"
 import reactHooks from "eslint-plugin-react-hooks"
+import pluginQuery from "@tanstack/eslint-plugin-query"
 
 export default tseslint.config({
   extends: [
@@ -13,42 +14,43 @@ export default tseslint.config({
     tseslint.configs.recommended,
     react.configs.flat.recommended,
     stylistic.configs.recommended,
-    eslintConfigPrettier
+    ...pluginQuery.configs["flat/recommended"],
+    eslintConfigPrettier,
   ],
   ignores: ["node_modules/**", "dist/**"],
   files: ["src/**/*.{ts,tsx}", "**.*.mts"],
   languageOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    globals: { ...globals.browser, ...globals.node }
+    globals: { ...globals.browser, ...globals.node },
   },
   plugins: {
     "@typescript-eslint": tseslint.plugin,
     "react-hooks": reactHooks,
-    boundaries
+    boundaries,
   },
   settings: {
     react: { version: "detect" },
     "import/resolver": {
       typescript: {
-        alwaysTryTypes: true
-      }
+        alwaysTryTypes: true,
+      },
     },
 
     "boundaries/elements": [
       {
         type: "app",
-        pattern: "./src/app"
+        pattern: "./src/app",
       },
       {
         type: "features",
-        pattern: "./src/features/*"
+        pattern: "./src/features/*",
       },
       {
         type: "shared",
-        pattern: "./src/shared"
-      }
-    ]
+        pattern: "./src/shared",
+      },
+    ],
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
@@ -56,8 +58,8 @@ export default tseslint.config({
       "error",
       {
         destructuring: "any",
-        ignoreReadBeforeAssign: false
-      }
+        ignoreReadBeforeAssign: false,
+      },
     ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
@@ -90,15 +92,15 @@ export default tseslint.config({
           {
             from: "shared",
             disallow: ["app", "features"],
-            message: "${file.type}s of category ${file.category} are not allowed to import ${dependency.category}s"
+            message: "${file.type}s of category ${file.category} are not allowed to import ${dependency.category}s",
           },
           {
             from: "features",
             disallow: ["app"],
-            message: "${file.type}s of category ${file.category} are not allowed to import ${dependency.category}s"
-          }
-        ]
-      }
+            message: "${file.type}s of category ${file.category} are not allowed to import ${dependency.category}s",
+          },
+        ],
+      },
     ],
     "boundaries/entry-point": [
       2,
@@ -109,14 +111,14 @@ export default tseslint.config({
         rules: [
           {
             target: ["shared", "app"],
-            allow: "**"
+            allow: "**",
           },
           {
             target: ["features"],
-            allow: ["index.(ts|tsx)", "*.page.tsx"]
-          }
-        ]
-      }
-    ]
-  }
+            allow: ["index.(ts|tsx)", "*.page.tsx"],
+          },
+        ],
+      },
+    ],
+  },
 })
