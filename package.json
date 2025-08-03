@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "prettier": "prettier --check .",
     "format": "prettier --write .",
-    "api": "npx openapi-typescript ./src/shared/api/schema/main.yaml -o ./src/shared/api/schema/generated.ts"
+    "api:generate": "pnpm openapi-typescript ./src/shared/api/schema/openapi.yaml -o ./src/shared/api/schema/generated.ts",
+    "api:mock": "prism mock --cors -h 0.0.0.0 -p 4010 ./src/shared/api/schema/openapi.yaml",
+    "api:mock:docker": "docker run --rm -p 4010:4010 -v \"$PWD/src/shared/api/schema/openapi.yaml:/tmp/openapi.yaml\" stoplight/prism:5 mock --dynamic -h 0.0.0.0 /tmp/openapi.yaml"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
   "packageManager": "pnpm@10.14.0",
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@stoplight/prism-cli": "^5.14.2",
     "@stylistic/eslint-plugin": "^5.2.2",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/eslint-plugin-query": "^5.83.1",
