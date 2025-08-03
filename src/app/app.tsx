@@ -1,18 +1,9 @@
-import { useState } from "react"
-import Dashboard from "@/features/dashboard"
-import { Button } from "@/shared/ui/kit/button"
+import { Outlet } from "react-router"
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>count is {count}</Button>
-        <Dashboard />
-      </div>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Outlet />
+    </div>
   )
 }
-
-export default App
