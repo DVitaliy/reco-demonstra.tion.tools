@@ -1,19 +1,18 @@
-import { useState } from "react";
-import Dashboard from "@/features/dashboard/Dashboard";
+import { useState } from "react"
+import Dashboard from "@/features/dashboard"
+import { Button } from "@/shared/ui/kit/button"
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
     <>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <Button onClick={() => setCount((count) => count + 1)}>count is {count}</Button>
         <Dashboard />
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
