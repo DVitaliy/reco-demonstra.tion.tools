@@ -99,7 +99,7 @@ export interface paths {
         };
         /**
          * Get current user roles
-         * @description Возвращает массив ролей текущего пользователя. Требуется Bearer‑токен в заголовке **Authorization**.
+         * @description Returns array of roles for current user. Requires Bearer token.
          */
         get: {
             parameters: {
@@ -113,7 +113,7 @@ export interface paths {
                 /** @description List of roles */
                 200: {
                     headers: {
-                        /** @description Токен передаётся в формате `Bearer <token>` в запросе. */
+                        /** @description Token is sent as `Bearer <token>` in the request. */
                         Authorization?: string;
                         [name: string]: unknown;
                     };
@@ -173,8 +173,8 @@ export interface components {
                 "application/json": components["schemas"]["Error"];
             };
         };
-        /** @description Resource not found */
-        NotFoundError: {
+        /** @description Bad request */
+        BadRequestError: {
             headers: {
                 [name: string]: unknown;
             };
@@ -182,8 +182,8 @@ export interface components {
                 "application/json": components["schemas"]["Error"];
             };
         };
-        /** @description Bad request */
-        BadRequestError: {
+        /** @description Resource not found */
+        NotFoundError: {
             headers: {
                 [name: string]: unknown;
             };

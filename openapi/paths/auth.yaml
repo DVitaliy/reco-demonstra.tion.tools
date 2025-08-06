@@ -1,0 +1,65 @@
+login:
+  post:
+    operationId: auth_login
+    summary: Login user
+    security: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/LoginRequest"
+    responses:
+      "200":
+        description: Login successful
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/AuthResponse"
+            examples:
+              valid:
+                summary: Valid JWT example
+                value:
+                  accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjQ3Njk0NDAwMDB9.sQd5mR5-2Cz0n8tO9W2F6G8r3o2wQe1fVJ4p0m1i2kA
+                  user:
+                    id: "123"
+                    email: user@example.com
+      "400":
+        $ref: "../components/responses.yaml#/BadRequestError"
+      "401":
+        $ref: "../components/responses.yaml#/UnauthorizedError"
+      "404":
+        $ref: "../components/responses.yaml#/NotFoundError"
+
+register:
+  post:
+    operationId: auth_register
+    summary: Register user
+    security: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/RegisterRequest"
+    responses:
+      "201":
+        description: User created
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/AuthResponse"
+            examples:
+              valid:
+                summary: Valid JWT example on register
+                value:
+                  accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NTYiLCJlbWFpbCI6Im5ld0BleGFtcGxlLmNvbSIsImV4cCI6NDc2OTQ0MDAwMH0.3tD3d3h0l5sV8yQyZq1bQ0x8j8v7S1bYyUoVY4WcQYg
+                  user:
+                    id: "456"
+                    email: new@example.com
+      "400":
+        $ref: "../components/responses.yaml#/BadRequestError"
+      "401":
+        $ref: "../components/responses.yaml#/UnauthorizedError"
+      "404":
+        $ref: "../components/responses.yaml#/NotFoundError"

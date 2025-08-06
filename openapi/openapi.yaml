@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: Demo API
+  version: "1.0.0"
+  license:
+    name: MIT
+    url: https://opensource.org/license/mit
+
+servers:
+  - url: http://0.0.0.0:4010
+    description: Local Prism mock
+
+paths:
+  /api/auth/login:
+    $ref: "./paths/auth.yaml#/login"
+  /api/auth/register:
+    $ref: "./paths/auth.yaml#/register"
+  /api/myrole:
+    $ref: "./paths/myrole.yaml#/get"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      $ref: "./components/schemas.yaml#/Error"
+    User:
+      $ref: "./components/schemas.yaml#/User"
+    LoginRequest:
+      $ref: "./components/schemas.yaml#/LoginRequest"
+    RegisterRequest:
+      $ref: "./components/schemas.yaml#/RegisterRequest"
+    AuthResponse:
+      $ref: "./components/schemas.yaml#/AuthResponse"
+
+  responses:
+    UnauthorizedError:
+      $ref: "./components/responses.yaml#/UnauthorizedError"
+    BadRequestError:
+      $ref: "./components/responses.yaml#/BadRequestError"
+    NotFoundError:
+      $ref: "./components/responses.yaml#/NotFoundError"

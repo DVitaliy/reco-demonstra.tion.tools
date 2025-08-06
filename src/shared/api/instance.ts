@@ -8,13 +8,13 @@ export const fetchClient = createFetchClient<ApiPaths>({
 })
 export const rqClient = createClient(fetchClient)
 
-// fetchClient.use({
-//   async onRequest({ request }) {
-//     const token = localStorage.getItem("accessToken");
-//     if (token) request.headers.set("Authorization", `Bearer ${token}`);
-//     return request;
-//   },
-// })
+fetchClient.use({
+  async onRequest({ request }) {
+    const token = localStorage.getItem("accessToken")
+    if (token) request.headers.set("Authorization", `Bearer ${token}`)
+    return request
+  },
+})
 
 // export const publicFetchClient = createFetchClient<ApiPaths>({
 //   baseUrl: import.meta.env.VITE_API_BASE_URL,
