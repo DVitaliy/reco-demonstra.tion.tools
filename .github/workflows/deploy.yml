@@ -2,7 +2,7 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [main, temp]
+    branches: [main, temp, dev]
 
 jobs:
   deploy:
@@ -19,7 +19,7 @@ jobs:
           pnpm install --frozen-lockfile
           # pnpm lint
           # pnpm prettier
-          # pnpm test
+          pnpm test
           pnpm build
 
       - name: 📦 Create deployment archive
