@@ -1,0 +1,57 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main, temp, dev]
+
+jobs:
+  deploy:
+    if: contains(github.event.head_commit.message, 'DEPLOY')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Test and Build project
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          # pnpm lint
+          # pnpm prettier
+          pnpm test
+          pnpm build
+
+      - name: 📦 Create deployment archive
+        run: |
+          tar -czf deploy-reco.tar.gz -C dist .
+          ls -lh deploy-reco.tar.gz
+
+      - name: 📂 Upload build and configs to server
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "deploy-reco.tar.gz"
+          target: "~/"
+
+      - name: 🚀 Deploy
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            mkdir -p ~/_reco_temp
+            tar -xzf ~/deploy-reco.tar.gz -C ~/_reco_temp
+
+            rm -rf ~/reco
+
+            mv ~/_reco_temp ~/reco
+            rm -f ~/deploy-reco.tar.gz
+
+            echo "✅ Deployment completed!"
+            ls -la ~/reco/

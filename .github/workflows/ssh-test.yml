@@ -1,0 +1,52 @@
+name: Test SSH connection
+
+on:
+  push:
+    branches: [temp]
+
+jobs:
+  test-ssh:
+    if: contains(github.event.head_commit.message, 'TEST')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test SSH connection
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "✅ SSH connection successful!"
+            whoami
+            hostname
+            uptime
+            rm -rf ~/reco
+            mkdir ~/reco
+
+            cat > ~/reco/index.html <<'HTML'
+            <!doctype html>
+            <html lang="en">
+            <head>
+              <meta charset="utf-8"/>
+              <meta name="viewport" content="width=device-width,initial-scale=1"/>
+              <title>reco demo</title>
+              <style>
+                html,body{height:100%;margin:0}
+                body{display:flex;align-items:center;justify-content:center;font:16px/1.4 system-ui}
+                .card{padding:24px;border:1px solid #ddd;border-radius:12px}
+                .muted{color:#666}
+              </style>
+            </head>
+            <body>
+              <div class="card">
+                <h1>It works 🎉</h1>
+                <p class="muted">Served from <code>~/reco/index.html</code></p>
+              </div>
+            </body>
+            </html>
+            HTML
+
+            echo "✅ index.html created successfully!"
+            ls -la ~/reco/
