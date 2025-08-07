@@ -11,7 +11,7 @@ export default function SideBarLayout() {
   const location = useLocation()
 
   return (
-    <aside className="bg-zinc-900 w-60 min-h-screen p-6 flex flex-col items-start text-white space-y-8">
+    <aside className=" w-60 min-h-screen p-6 flex flex-col items-start text-white space-y-8">
       <img src={Logo} alt="Reco logo" className="w-20" />
 
       <ul className="flex flex-col gap-4 text-sm uppercase font-semibold tracking-wide">
