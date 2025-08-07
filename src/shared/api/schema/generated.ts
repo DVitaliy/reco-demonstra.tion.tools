@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/auth/login": {
+    "/api/v1/app-service/get-apps": {
         parameters: {
             query?: never;
             header?: never;
@@ -12,119 +12,11 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put?: never;
-        /** Login user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["LoginRequest"];
-                };
-            };
-            responses: {
-                /** @description Login successful */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AuthResponse"];
-                    };
-                };
-                400: components["responses"]["BadRequestError"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/auth/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Register user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["RegisterRequest"];
-                };
-            };
-            responses: {
-                /** @description User created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AuthResponse"];
-                    };
-                };
-                400: components["responses"]["BadRequestError"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/myrole": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         /**
-         * Get current user roles
-         * @description Returns array of roles for current user. Requires Bearer token.
+         * List all apps.
+         * @description Get apps page. Given page number and page size. Supporting 25 / 50 page size.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List of roles */
-                200: {
-                    headers: {
-                        /** @description Token is sent as `Bearer <token>` in the request. */
-                        Authorization?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string[];
-                    };
-                };
-                401: components["responses"]["UnauthorizedError"];
-            };
-        };
-        put?: never;
+        put: operations["app_service_get_apps"];
         post?: never;
         delete?: never;
         options?: never;
@@ -136,66 +28,108 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        Error: {
-            message: string;
-            code: string;
+        v1GetAppsRequest: {
+            /** @description Filter by application name */
+            appName?: string;
+            /** @description Filter by category */
+            category?: string;
+            /** Format: int32 */
+            pageNumber?: number;
+            /** Format: int32 */
+            pageSize?: number;
         };
-        User: {
-            id: string;
-            /** Format: email */
-            email: string;
+        /** @example {
+         *       "appRows": [
+         *         {
+         *           "appId": "appId",
+         *           "appName": "appName",
+         *           "appSources": [
+         *             "source1",
+         *             "source2"
+         *           ],
+         *           "category": "category"
+         *         }
+         *       ],
+         *       "totalCount": 2
+         *     } */
+        v1GetAppsResponse: {
+            appRows?: components["schemas"]["v1AppRow"][];
+            /** Format: int32 */
+            totalCount?: number;
         };
-        LoginRequest: {
-            /** Format: email */
-            email: string;
-            /** Format: password */
-            password: string;
+        /** @example {
+         *       "appId": "appId",
+         *       "appName": "appName",
+         *       "appSources": [
+         *         "source1",
+         *         "source2"
+         *       ],
+         *       "category": "category"
+         *     } */
+        v1AppRow: {
+            appId?: string;
+            appName?: string;
+            appSources?: string[];
+            category?: string;
         };
-        RegisterRequest: {
-            /** Format: email */
-            email: string;
-            /** Format: password */
-            password: string;
+        googlerpcStatus: {
+            /** Format: int32 */
+            code?: number;
+            message?: string;
+            details?: components["schemas"]["protobufAny"][];
         };
-        AuthResponse: {
-            /** @description JWT access token (mock) */
-            accessToken: string;
-            user: components["schemas"]["User"];
-        };
-    };
-    responses: {
-        /** @description Unauthorized */
-        UnauthorizedError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Error"];
-            };
-        };
-        /** @description Bad request */
-        BadRequestError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Error"];
-            };
-        };
-        /** @description Resource not found */
-        NotFoundError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Error"];
-            };
+        protobufAny: {
+            "@type"?: string;
         };
     };
+    responses: never;
     parameters: never;
     requestBodies: never;
     headers: never;
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    app_service_get_apps: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["v1GetAppsRequest"];
+            };
+        };
+        responses: {
+            /** @description A successful response. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["v1GetAppsResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["googlerpcStatus"];
+                };
+            };
+            /** @description Unexpected error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["googlerpcStatus"];
+                };
+            };
+        };
+    };
+}
